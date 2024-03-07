@@ -16,27 +16,25 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 
 Load the Mistral model and tokenizer using the AutoModelForCausalLM and AutoTokenizer classes:
 
-model_name = "filipealmeida/Mistral-7B-Instruct-v0.1-sharded"
-model = AutoModelForCausalLM.from_pretrained(model_name)
-tokenizer = AutoTokenizer.from_pretrained(model_name)
+model_name = 'filipealmeida/Mistral-7B-Instruct-v0.1-sharded'
 
 Generate text based on your input prompt:
 
 prompt = "Write an essay on the culture and tradition of Nepal in 300 words."
-encoded_prompt = tokenizer(prompt, return_tensors="pt", add_special_tokens=False)
-output = model.generate(**encoded_prompt, max_length=200, num_return_sequences=1, do_sample=True)
-decoded_output = tokenizer.decode(output[0], skip_special_tokens=True)
-print(decoded_output)
 
-3. Customization
+3.Output Customization
 
 You can adjust the max_length, num_return_sequences, and other parameters of the generate method according to your requirements.
+i have used two method for generating output
+
+In the first code snippet, text generation is performed in a single pass for the entire input text.
+The input text is encoded using the tokenizer, and then the entire text is passed to the model for generation in one go.
+
+In the second code snippet, text generation is performed in multiple passes, with the input text split into smaller chunks.
+The input text is split into smaller chunks (each containing 200 characters in this case), and each chunk is separately passed to the model for generation.
+Text generation is performed iteratively over multiple epochs, where each epoch processes all the chunks of the input text.
 
 4. Running the Script
 
 Run your script or notebook, and you should see the generated text based on the Mistral model.
-
-5. Additional Information
-
-For more information on the Transformers library and the Mistral model, refer to the Hugging Face documentation: https://huggingface.co/transformers/
 
